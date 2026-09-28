@@ -17,3 +17,4 @@
 - Chat intent parsing and multilingual answer rendering live in `src/lib/chat.ts`; no external model is called.
 - `AppStateProvider` wraps `<Outlet />` in `__root.tsx` and every console route renders inside `AppShell` (teal sidebar + header selectors), so location/language persist across the eight nav routes.
 - Dashboard summary cards (`DashboardOverview.tsx`) read `snapshot` and reuse `buildSnapshot` for future hours; never duplicate risk/PFZ/alert logic there.
+- Marine geography renders with Leaflet/OpenStreetMap in a client-only module; ORCA overlays continue to come from deterministic `buildGeoSet` coordinates.
