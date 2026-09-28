@@ -4,6 +4,7 @@ import { useMemo, type ReactNode } from "react";
 
 import { SOURCES } from "../lib/api";
 import { compass, formatDateTime, t, type Lang } from "../lib/i18n";
+import { bearingDeg } from "../lib/locations";
 import { RISK_LABEL_KEY, type RiskLevel } from "../lib/risk";
 import { buildSnapshot } from "../lib/snapshot";
 import { useApp } from "../state/app-state";
@@ -173,7 +174,7 @@ export function ForecastSummaryCard() {
 }
 
 export function ZonesSummaryCard() {
-  const { lang, snapshot } = useApp();
+  const { lang, snapshot, location } = useApp();
   const zones = snapshot ? [...snapshot.pfz].sort((a, b) => b.score - a.score).slice(0, 3) : [];
   return (
     <Card
@@ -202,7 +203,7 @@ export function ZonesSummaryCard() {
                 <span className="num shrink-0 text-sm">{z.score}/100</span>
               </div>
               <div className="num mt-0.5 text-[11px] text-muted-foreground">
-                {z.distanceKm.toFixed(0)} km · {t(lang, "confidence")} {Math.round(z.confidence * (z.confidence <= 1 ? 100 : 1))}% ·{" "}
+                {z.distanceKm.toFixed(0)} km {compass(bearingDeg(location, z.center), lang)} · {t(lang, "confidence")} {z.confidence}% ·{" "}
                 {t(lang, "sst")} {f(z.sst)} °C · {z.depthM} m
               </div>
               <div className="mt-0.5 truncate text-[11px] text-muted-foreground">{z.species[lang]}</div>
