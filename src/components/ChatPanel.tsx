@@ -155,15 +155,14 @@ export function ChatPanel() {
           </Button>
         ) : null
       }
-      className={messages.length ? "xl:h-[44rem]" : ""}
     >
-      <div className={messages.length ? "flex h-full flex-col" : "flex flex-col"}>
+      <div className="flex flex-col">
         <div
           ref={logRef}
           role="log"
           aria-live="polite"
           aria-label={t(lang, "secChat")}
-          className="min-h-0 flex-1 space-y-3 overflow-y-auto pr-1"
+          className="max-h-[24rem] space-y-3 overflow-y-auto pr-1"
         >
           {!messages.length ? (
             <p className="rounded-sm border border-dashed border-border px-3 py-2 text-sm text-muted-foreground">
