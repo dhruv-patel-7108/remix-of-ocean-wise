@@ -1,6 +1,7 @@
 @import "tailwindcss" source(none);
 @source "../src";
 @import "tw-animate-css";
+@import "leaflet/dist/leaflet.css";
 
 /*
  * ORCA design system — maritime operations console.
@@ -133,4 +134,95 @@
 @utility num {
   font-family: var(--font-mono);
   font-variant-numeric: tabular-nums;
+}
+
+/* Geographic map — restrained Leaflet chrome matched to the ORCA console. */
+.orca-map-wrap {
+  position: relative;
+}
+
+.orca-leaflet-map {
+  height: 360px;
+  width: 100%;
+  background: var(--color-sea);
+  font-family: var(--font-sans);
+}
+
+@media (min-width: 640px) {
+  .orca-leaflet-map {
+    height: 430px;
+  }
+}
+
+.orca-leaflet-map .leaflet-control-zoom a,
+.orca-leaflet-map .leaflet-control-layers,
+.orca-leaflet-map .leaflet-bar a {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  border-color: var(--color-border);
+}
+
+.orca-leaflet-map .leaflet-control-zoom a:hover,
+.orca-leaflet-map .leaflet-bar a:hover {
+  background: var(--color-surface-2);
+}
+
+.orca-leaflet-map .leaflet-control-layers-toggle {
+  filter: saturate(0.4) hue-rotate(120deg);
+}
+
+.orca-leaflet-map .leaflet-tooltip {
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-sm);
+  background: var(--color-surface);
+  color: var(--color-foreground);
+  box-shadow: var(--shadow-card);
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.orca-leaflet-map .leaflet-popup-content-wrapper,
+.orca-leaflet-map .leaflet-popup-tip {
+  background: var(--color-surface);
+  color: var(--color-foreground);
+}
+
+.orca-location-marker,
+.orca-port-marker {
+  display: block;
+  box-sizing: border-box;
+  border: 2px solid var(--color-primary-foreground);
+  background: var(--color-primary);
+  box-shadow: 0 0 0 2px var(--color-primary), var(--shadow-card);
+}
+
+.orca-location-marker {
+  width: 18px;
+  height: 18px;
+  margin: 3px;
+  border-radius: 50%;
+}
+
+.orca-port-marker {
+  width: 10px;
+  height: 10px;
+  margin: 2px;
+  border-radius: 2px;
+  background: var(--color-foreground);
+  box-shadow: 0 0 0 1px var(--color-surface);
+}
+
+.orca-coordinate-readout {
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  z-index: 500;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  background: color-mix(in oklab, var(--color-surface) 92%, transparent);
+  padding: 3px 7px;
+  color: var(--color-muted-foreground);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  pointer-events: none;
 }
