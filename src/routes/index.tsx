@@ -1,20 +1,19 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
 
-import { AlertsPanel } from "../components/AlertsPanel";
+import { AppShell } from "../components/AppShell";
 import { ChatPanel } from "../components/ChatPanel";
-import { EvidencePanel } from "../components/EvidencePanel";
+import {
+  AlertsSummaryCard,
+  ForecastSummaryCard,
+  KpiStrip,
+  RiskFactorsCard,
+  SourcesSummaryCard,
+  ZonesSummaryCard,
+} from "../components/DashboardOverview";
 import { MarineMap } from "../components/MarineMap";
 import { OceanPanel } from "../components/OceanPanel";
-import { PfzPanel } from "../components/PfzPanel";
-import { RiskPanel } from "../components/RiskPanel";
-import { RoutePanel } from "../components/RoutePanel";
-import { SystemPanel } from "../components/SystemPanel";
-import { TopBar } from "../components/TopBar";
-import { WeatherPanel } from "../components/WeatherPanel";
-import { SiteFooter } from "../components/SiteFooter";
-import type { LatLon } from "../lib/geodata";
-import { AppStateProvider, useApp } from "../state/app-state";
+import { t } from "../lib/i18n";
+import { useApp } from "../state/app-state";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -23,7 +22,7 @@ export const Route = createFileRoute("/")({
       {
         name: "description",
         content:
-          "Marine decision-support console for Indian coastal operators: live weather and ocean conditions, potential fishing zones, route clearance and risk assessment.",
+          "Marine decision-support dashboard for Indian coastal operators: live weather and ocean conditions, potential fishing zones, route clearance and risk assessment.",
       },
       { property: "og:title", content: "ORCA — Ocean Risk & Coastal Awareness" },
       {
@@ -39,52 +38,22 @@ export const Route = createFileRoute("/")({
 });
 
 function Dashboard() {
-  return (
-    <AppStateProvider>
-      <DashboardBody />
-    </AppStateProvider>
-  );
-}
-
-function DashboardBody() {
   const { lang } = useApp();
-  const [routePoints, setRoutePoints] = useState<LatLon[] | null>(null);
-  const [routeLabel, setRouteLabel] = useState<string | undefined>(undefined);
-
   return (
-    <div className="min-h-screen bg-background">
-      <TopBar />
-      <main className="mx-auto max-w-[1600px] space-y-4 px-4 py-4">
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] xl:items-start">
-          <MarineMap routePoints={routePoints} routeLabel={routeLabel} />
-          <ChatPanel />
-        </div>
-
-        <div className="grid gap-4">
-          <WeatherPanel />
-          <OceanPanel />
-        </div>
-
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] xl:items-start">
-          <PfzPanel />
-          <RiskPanel />
-        </div>
-
-        <RoutePanel
-          onRouteChange={(points, label) => {
-            setRoutePoints(points);
-            setRouteLabel(label);
-          }}
-        />
-
-        <div className="grid gap-4 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] xl:items-start">
-          <AlertsPanel />
-          <SystemPanel />
-        </div>
-
-        <EvidencePanel />
-      </main>
-      <SiteFooter lang={lang} />
-    </div>
+    <AppShell title={t(lang, "navDashboard")}>
+      <KpiStrip />
+      <div className="grid gap-4 xl:grid-cols-[minmax(0,7fr)_minmax(0,5fr)] xl:items-start">
+        <MarineMap routePoints={null} />
+        <ChatPanel />
+      </div>
+      <OceanPanel />
+      <div className="grid gap-4 lg:grid-cols-2 2xl:grid-cols-3">
+        <ForecastSummaryCard />
+        <ZonesSummaryCard />
+        <AlertsSummaryCard />
+        <RiskFactorsCard lang={lang} />
+        <SourcesSummaryCard />
+      </div>
+    </AppShell>
   );
 }

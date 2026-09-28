@@ -28,12 +28,7 @@ export function Section({
       aria-labelledby={`${id}-title`}
       className={`panel flex min-w-0 flex-col ${className}`}
     >
-      <header className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border px-4 py-3">
-        {index !== undefined && (
-          <span className="num rounded-sm bg-surface-2 px-1.5 py-0.5 text-[11px] text-muted-foreground">
-            {String(index).padStart(2, "0")}
-          </span>
-        )}
+      <header className="flex flex-wrap items-center gap-x-3 gap-y-2 border-b border-border px-4 py-2.5">
         <h2 id={`${id}-title`} className="text-sm font-semibold tracking-tight">
           {title}
         </h2>
