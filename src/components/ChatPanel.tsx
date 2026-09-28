@@ -9,7 +9,7 @@ import {
   type ParsedQuery,
 } from "../lib/chat";
 import { formatTime, t } from "../lib/i18n";
-import type { MarineLocation } from "../lib/locations";
+import { LOCATIONS, type MarineLocation } from "../lib/locations";
 import { useApp } from "../state/app-state";
 import { Button, Section, StatusBadge } from "./ui/primitives";
 
@@ -18,13 +18,14 @@ const nextId = () => `m${++counter}`;
 
 function suggestions(loc: MarineLocation, lang: "en" | "hi" | "gu"): string[] {
   const n = loc.name[lang];
+  const other = (LOCATIONS.find((l) => l.id !== loc.id && l.coast === loc.coast) ?? LOCATIONS.find((l) => l.id !== loc.id)!).name[lang];
   if (lang === "hi")
     return [
       `${n} के पास महासागर की स्थिति क्या है?`,
       `क्या कल सुबह ${n} के पास मछली पकड़ना सुरक्षित है?`,
       `${n} के पास संभावित मत्स्य क्षेत्र दिखाइए`,
       `${n} के पास समुद्री चेतावनियाँ हैं?`,
-      `वेरावल और पोरबंदर की तुलना करें`,
+      `${n} और ${other} की तुलना करें`,
     ];
   if (lang === "gu")
     return [
@@ -32,14 +33,14 @@ function suggestions(loc: MarineLocation, lang: "en" | "hi" | "gu"): string[] {
       `આવતીકાલે સવારે ${n} પાસે માછીમારી સલામત છે?`,
       `${n} પાસે સંભવિત મત્સ્ય વિસ્તાર બતાવો`,
       `${n} પાસે દરિયાઈ ચેતવણી છે?`,
-      `વેરાવળ અને પોરબંદરની સરખામણી કરો`,
+      `${n} અને ${other}ની સરખામણી કરો`,
     ];
   return [
     `What are the ocean conditions near ${n}?`,
     `Is it safe to fish near ${n} tomorrow morning?`,
     `Show potential fishing zones near ${n}`,
     `Are there marine warnings near ${n}?`,
-    `Compare Veraval and Porbandar conditions`,
+    `Compare ${n} and ${other} conditions`,
   ];
 }
 
